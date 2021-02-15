@@ -31,3 +31,14 @@ type Response struct {
 	Body            string            `json:"body"`
 	IsBase64Encoded bool              `json:"isBase64Encoded"`
 }
+
+func (r *Response) MarshalBody(v interface{}) error {
+	rawJSON, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	r.Body = string(rawJSON)
+
+	return nil
+}
