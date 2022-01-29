@@ -4,18 +4,21 @@ go 1.17
 
 require (
 	github.com/aws/aws-sdk-go v1.41.18
+	github.com/pkg/errors v0.9.1
 	github.com/yandex-cloud/go-sdk v0.0.0-20211102103002-9421f7d38b70
-	github.com/yandex-cloud/ydb-go-sdk v1.5.2
+	github.com/ydb-platform/ydb-go-sdk/v3 v3.6.2
 )
 
 require (
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible // indirect
 	github.com/ghodss/yaml v1.0.0 // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
+	github.com/google/go-cmp v0.5.6 // indirect
 	github.com/hashicorp/errwrap v1.0.0 // indirect
 	github.com/hashicorp/go-multierror v1.0.0 // indirect
 	github.com/jmespath/go-jmespath v0.4.0 // indirect
 	github.com/yandex-cloud/go-genproto v0.0.0-20211102100241-4019606b54a8 // indirect
+	github.com/ydb-platform/ydb-go-genproto v0.0.0-20211103074319-526e57659e16 // indirect
 	golang.org/x/net v0.0.0-20210614182718-04defd469f4e // indirect
 	golang.org/x/sys v0.0.0-20210510120138-977fb7262007 // indirect
 	golang.org/x/text v0.3.6 // indirect
