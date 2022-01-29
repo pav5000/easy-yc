@@ -52,8 +52,8 @@ func (s *Service) DefaultTXC() *table.TransactionControl {
 
 func (s *Service) Execute(
 	ctx context.Context,
-	userFunc func(result.Result) error,
 	query string, params *table.QueryParameters,
+	dataFunc func(result.Result) error,
 ) error {
 	return s.conn.Table().Do(
 		ctx,
@@ -64,7 +64,7 @@ func (s *Service) Execute(
 			}
 			defer res.Close()
 
-			return userFunc(res)
+			return dataFunc(res)
 		},
 	)
 }
