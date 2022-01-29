@@ -8,6 +8,7 @@ import (
 	"github.com/pkg/errors"
 	"github.com/ydb-platform/ydb-go-sdk/v3"
 	"github.com/ydb-platform/ydb-go-sdk/v3/table"
+	"github.com/ydb-platform/ydb-go-sdk/v3/table/result"
 )
 
 type Service struct {
@@ -49,8 +50,21 @@ func (s *Service) DefaultTXC() *table.TransactionControl {
 	return s.txc
 }
 
-func (s *Service) Do() {
-	s.conn.Table().Do(ctx context.Context, op table.Operation, opts ...table.Option)
+func (s *Service) Execute(
+	ctx context.Context,
+	userFunc func(result.Result) error,
+	query string, params *table.QueryParameters,
+) error {
+	return s.conn.Table().Do(
+		ctx,
+		func(ctx context.Context, session table.Session) (err error) {
+			_, res, err := session.Execute(ctx, s.DefaultTXC(), query, params)
+			if err != nil {
+				return err
+			}
+			defer res.Close()
+
+			return userFunc(res)
+		},
+	)
 }
-
-
