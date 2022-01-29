@@ -68,3 +68,11 @@ func (s *Service) Execute(
 		},
 	)
 }
+
+func (s *Service) Do(ctx context.Context, op table.Operation, opts ...table.Option) {
+	s.conn.Table().Do(ctx, op, opts...)
+}
+
+func (s *Service) DoTx(ctx context.Context, op table.TxOperation, opts ...table.Option) {
+	s.conn.Table().DoTx(ctx, op, opts...)
+}
