@@ -26,7 +26,8 @@ func New(ctx context.Context, endpoint, path string) (*Service, error) {
 
 	service.conn, err = ydb.New(
 		ctx,
-		ydb.WithConnectionString(endpoint),
+		ydb.WithEndpoint(endpoint),
+		ydb.WithDatabase(path),
 		ydb.WithDialTimeout(3*time.Second),
 		ydb.WithCertificatesFromPem([]byte(rootPEM)),
 		ydb.WithSessionPoolIdleThreshold(time.Second*5),
