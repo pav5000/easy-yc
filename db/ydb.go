@@ -34,6 +34,7 @@ func New(ctx context.Context, endpoint, path string) (*Service, error) {
 		ydb.WithSessionPoolKeepAliveMinSize(-1),
 		ydb.WithDiscoveryInterval(5*time.Second),
 		ydb.WithAccessTokenCredentials(token),
+		ydb.WithSecure(true),
 	)
 	if err != nil {
 		return nil, errors.Wrap(err, "ydb.New")
