@@ -9,7 +9,6 @@ import (
 	"github.com/ydb-platform/ydb-go-sdk/v3/table"
 	"github.com/ydb-platform/ydb-go-sdk/v3/table/result"
 	yc "github.com/ydb-platform/ydb-go-yc"
-	ycMetadata "github.com/ydb-platform/ydb-go-yc-metadata"
 )
 
 type Service struct {
@@ -29,7 +28,7 @@ func New(ctx context.Context, endpoint, path string) (_ *Service, err error) {
 		yc.WithServiceAccountKeyFileCredentials(
 			"iam.txt",
 			yc.WithFallbackCredentials(
-				ycMetadata.NewInstanceServiceAccount(ctx),
+				yc.NewInstanceServiceAccount(ctx),
 			),
 		),
 		//ydb.WithCredentials(auth.GetYdbCredentials()),
