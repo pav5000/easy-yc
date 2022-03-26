@@ -50,6 +50,8 @@ func (s *Service) DefaultTXC() *table.TransactionControl {
 	return s.txc
 }
 
+// Execute is the simpliest way to execute one query
+// You only need to write a callback that parses the results
 func (s *Service) Execute(
 	ctx context.Context,
 	query string, params *table.QueryParameters,
@@ -69,10 +71,16 @@ func (s *Service) Execute(
 	)
 }
 
+// Do executes the callback and provides a valid db session to it
 func (s *Service) Do(ctx context.Context, op table.Operation, opts ...table.Option) {
 	s.conn.Table().Do(ctx, op, opts...)
 }
 
+// DoTx executes provided callback inside a transaction
+// you don't need to start the transaction or do commit/rollback
+// the transaction is started automatically before callback execution
+// if callback returns error, the transaction will be rolled back
+// if callback returns nil, the transaction will be commited
 func (s *Service) DoTx(ctx context.Context, op table.TxOperation, opts ...table.Option) {
 	s.conn.Table().DoTx(ctx, op, opts...)
 }
