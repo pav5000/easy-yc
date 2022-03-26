@@ -4,11 +4,11 @@ import (
 	"context"
 	"time"
 
-	"github.com/pav5000/easy-yc/auth"
 	"github.com/pkg/errors"
-	"github.com/ydb-platform/ydb-go-sdk/v3"
+	ydb "github.com/ydb-platform/ydb-go-sdk/v3"
 	"github.com/ydb-platform/ydb-go-sdk/v3/table"
 	"github.com/ydb-platform/ydb-go-sdk/v3/table/result"
+	yc "github.com/ydb-platform/ydb-go-yc"
 )
 
 type Service struct {
@@ -16,25 +16,23 @@ type Service struct {
 	txc  *table.TransactionControl
 }
 
-func New(ctx context.Context, endpoint, path string) (*Service, error) {
+func New(ctx context.Context, endpoint, path string) (_ *Service, err error) {
 	service := &Service{}
-
-	token, err := auth.GetIAMToken(ctx)
-	if err != nil {
-		return nil, err
-	}
 
 	service.conn, err = ydb.New(
 		ctx,
 		ydb.WithEndpoint(endpoint),
 		ydb.WithDatabase(path),
-		ydb.WithDialTimeout(3*time.Second),
-		ydb.WithCertificatesFromPem([]byte(rootPEM)),
-		ydb.WithSessionPoolIdleThreshold(time.Second*5),
-		ydb.WithSessionPoolKeepAliveMinSize(-1),
-		ydb.WithDiscoveryInterval(5*time.Second),
-		ydb.WithAccessTokenCredentials(token),
 		ydb.WithSecure(true),
+		yc.WithInternalCA(),
+		yc.WithServiceAccountKeyFileCredentials(
+			"iam.txt",
+			yc.WithFallbackCredentials(
+				yc.NewInstanceServiceAccount(ctx),
+			),
+		),
+		//ydb.WithCredentials(auth.GetYdbCredentials()),
+		ydb.WithDialTimeout(3*time.Second),
 	)
 	if err != nil {
 		return nil, errors.Wrap(err, "ydb.New")
