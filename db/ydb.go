@@ -9,8 +9,7 @@ import (
 	"github.com/ydb-platform/ydb-go-sdk/v3/table"
 	"github.com/ydb-platform/ydb-go-sdk/v3/table/result"
 	yc "github.com/ydb-platform/ydb-go-yc"
-
-	"github.com/pav5000/easy-yc/auth"
+	ycMetadata "github.com/ydb-platform/ydb-go-yc-metadata"
 )
 
 type Service struct {
@@ -27,8 +26,13 @@ func New(ctx context.Context, endpoint, path string) (_ *Service, err error) {
 		ydb.WithDatabase(path),
 		ydb.WithSecure(true),
 		yc.WithInternalCA(),
-		//yc.WithServiceAccountKeyFileCredentials("iam.txt"),
-		ydb.WithCredentials(auth.GetYdbCredentials()),
+		yc.WithServiceAccountKeyFileCredentials(
+			"iam.txt",
+			yc.WithFallbackCredentials(
+				ycMetadata.NewInstanceServiceAccount(ctx),
+			),
+		),
+		//ydb.WithCredentials(auth.GetYdbCredentials()),
 		ydb.WithDialTimeout(3*time.Second),
 	)
 	if err != nil {

@@ -7,7 +7,8 @@ require (
 	github.com/pkg/errors v0.9.1
 	github.com/yandex-cloud/go-sdk v0.0.0-20220321145155-7c73eea54f12
 	github.com/ydb-platform/ydb-go-sdk/v3 v3.16.11
-	github.com/ydb-platform/ydb-go-yc v0.6.2
+	github.com/ydb-platform/ydb-go-yc v0.7.0
+	github.com/ydb-platform/ydb-go-yc-metadata v0.3.1
 )
 
 require (
@@ -21,7 +22,6 @@ require (
 	github.com/jmespath/go-jmespath v0.4.0 // indirect
 	github.com/yandex-cloud/go-genproto v0.0.0-20220321142955-c0e62d25d344 // indirect
 	github.com/ydb-platform/ydb-go-genproto v0.0.0-20220203104745-929cf9c248bc // indirect
-	github.com/ydb-platform/ydb-go-yc-metadata v0.3.1 // indirect
 	golang.org/x/net v0.0.0-20220325170049-de3da57026de // indirect
 	golang.org/x/sys v0.0.0-20220325203850-36772127a21f // indirect
 	golang.org/x/text v0.3.7 // indirect
